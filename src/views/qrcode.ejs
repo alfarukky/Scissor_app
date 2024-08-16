@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code</title>
+    <link rel="stylesheet" href="/css/bootstrap.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>QR Code for Your Shortened URL</h1>
+      <p>Scan the QR code below to be redirected to your URL:</p>
+      <div class="qr-code">
+        <img src="<%= qrCode %>" alt="QR Code" />
+      </div>
+      <a href="/user" class="btn btn-primary mt-3">Back to Home</a>
+    </div>
+
+    <script src="/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

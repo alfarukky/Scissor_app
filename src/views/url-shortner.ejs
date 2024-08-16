@@ -1,0 +1,98 @@
+<nav class="navbar navbar-light bg-dark mb-5">
+  <a class="navbar-brand text-white ms-5" href="/user">
+    <span class="brand">Scissor</span></a
+  >
+  <ul class="navbar-nav m-auto">
+    <li class="nav-item">
+      <a class="nav-link m-auto text-white" href="#"
+        >Welcome, <%= user.name %></a
+      >
+    </li>
+  </ul>
+  <ul class="navbar-nav me-5">
+    <li class="nav-item">
+      <form id="logout-form" action="auth/logout" method="POST">
+        <button
+          type="submit"
+          class="btn btn-outline-danger text-uppercase btn-md px-3"
+        >
+          Logout
+        </button>
+      </form>
+    </li>
+  </ul>
+</nav>
+<div class="container">
+  <h1>URL Shrinker</h1>
+  <form action="/shortUrl" method="POST" class="my-4 form-inline">
+    <label for="fullUrl" class="sr-only">Url</label>
+    <input
+      required
+      placeholder="Url"
+      type="url"
+      name="fullUrl"
+      id="fullUrl"
+      class="form-control col mr-2 mb-4"
+    />
+
+    <!-- New input field for custom URL -->
+    <input
+      placeholder="Custom short URL (optional)"
+      type="text"
+      name="customUrl"
+      id="customUrl"
+      class="form-control col mr-2"
+    />
+
+    <button class="btn btn-success mt-3" type="submit">Shrink</button>
+  </form>
+
+  <table class="table table-striped table-responsive">
+    <thead>
+      <tr>
+        <th>Full URL</th>
+        <th>Short URL</th>
+        <th>Clicks</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% shortUrls.forEach(shortUrl => { %>
+      <tr>
+        <td>
+          <a href="<%= shortUrl.fullUrl %>" target="_blank"
+            ><%= shortUrl.fullUrl %></a
+          >
+        </td>
+        <td><%= shortUrl.shortUrl %></td>
+        <!-- Display the short URL as text -->
+        <td><%= shortUrl.clicks %></td>
+        <td>
+          <!-- Copy Button -->
+          <button
+            class="btn btn-primary btn-sm"
+            onclick="copyToClipboard('<%= shortUrl.shortUrl %>')"
+          >
+            Copy
+          </button>
+
+          <!-- Delete Button -->
+          <form
+            action="/shortUrl/<%= shortUrl.shortUrl %>/delete"
+            method="POST"
+            style="display: inline"
+            onsubmit="return confirm('Are you sure you want to delete this URL?');"
+          >
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+          <a
+            href="/shortUrl/<%= shortUrl.shortUrl %>/qrcode"
+            class="btn btn-info btn-sm"
+            >QR Code</a
+          >
+        </td>
+      </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>

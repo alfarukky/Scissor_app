@@ -1,0 +1,47 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+*/
+
+.brand {
+  font-size: 1.5em;
+  font-style: italic;
+}
+
+.modal-content {
+  border-radius: 8px;
+}
+
+.modal-header {
+  background-color: #55c57a; /* Secondary color */
+  color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.modal-title {
+  font-weight: bold;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
+.btn-primary {
+  background-color: #7ed56f; /* Primary color */
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #6ad54f;
+}
+
+.btn-close {
+  filter: invert(1);
+}
+
+.form-label {
+  font-weight: bold;
+}
