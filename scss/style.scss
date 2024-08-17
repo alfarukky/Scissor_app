@@ -5,7 +5,10 @@ Light green: #7ed56f
 Medium green: #55c57a
 Dark green: #28b485
 */
-
+body {
+  max-width: 100%;
+  color: #1b0760;
+}
 .brand {
   font-size: 1.5em;
   font-style: italic;

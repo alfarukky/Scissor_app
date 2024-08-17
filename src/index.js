@@ -9,12 +9,14 @@ const homeRoute = require('./routes/home.route.js');
 const authRoute = require('./routes/auth.route');
 const userRoute = require('./routes/user.route');
 const shotenRoute = require('./routes/shorturl.route');
+const limiter = require('./middleware/limiter.middleware');
+const errorMiddleware = require('./middleware/error.middleware');
 
 dotenv.config();
 const app = express();
 
 //passport config
-require('./config/config.passport.js')(passport);
+require('./utils/utils.passport.js')(passport);
 
 //middlewares
 app.use(express.json());
@@ -52,9 +54,19 @@ app.use((req, res, next) => {
   next();
 });
 
+//rate limiting implemented.
+app.use(limiter);
+
+app.use(errorMiddleware);
+
 app.use('/', homeRoute);
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/', shotenRoute);
+
+//catch all route
+app.all('*', (req, res) => {
+  res.status(404).render('404', { title: 'Page Not Found' });
+});
 
 module.exports = app;
