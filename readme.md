@@ -13,6 +13,7 @@ ALtSchool Africa - Web Development Training (NodeJS)
 Scissor is a sleek and efficient URL shortening application that allows users to shorten long URLs into custom, manageable short links. It includes user authentication and personalized link management, enabling users to track the performance of their links with click analytics. The app offers a clean and user-friendly interface, making link sharing simple and effective.
 
 **Features**
+
 _User Authentication:_
 
 1. Users can sign up and log in to manage their links.
