@@ -1,7 +1,9 @@
 const ShortUrl = require('../model/schema/shortUrl.schema');
 const ErrorWithStatus = require('../Exception/error-with-status.exception');
+const { getRedisClient } = require('../model/connection.js');
 const { nanoid } = require('nanoid');
 const QRCode = require('qrcode');
+
 const createShortUrl = async (fullUrl, userId = null, customUrl = null) => {
   let shortUrl;
   if (customUrl) {
@@ -26,12 +28,24 @@ const createShortUrl = async (fullUrl, userId = null, customUrl = null) => {
 };
 
 const redirectShortUrl = async (shortUrl) => {
+  const redisClient = getRedisClient();
+  const cachedUrl = await redisClient.get(shortUrl);
+
+  if (cachedUrl) {
+    return JSON.parse(cachedUrl);
+  }
+
   const url = await ShortUrl.findOne({ shortUrl });
   if (!url) {
     throw new ErrorWithStatus('URL not found', 404);
   }
+
   url.clicks += 1;
   await url.save();
+
+  // Cache the result in Redis for subsequent requests
+  await redisClient.set(shortUrl, JSON.stringify(url), { EX: 3600 }); // Cache for 1 hour
+
   return url;
 };
 
@@ -41,6 +55,11 @@ const deleteShortUrl = async (shortUrl, userId) => {
     throw new ErrorWithStatus('URL not found or unauthorized', 404);
   }
   await ShortUrl.deleteOne({ _id: url._id });
+  const redisClient = getRedisClient();
+
+  // Invalidate the cache by deleting the entry from Redis
+  await redisClient.del(shortUrl);
+
   return url;
 };
 

@@ -1,10 +1,13 @@
-const { connectMongoDB } = require('./model/connection');
+const { connectRedis, connectMongoDB } = require('./model/connection');
 const app = require('./index');
 const logger = require('./utils/winston.utils');
-const { MONGO_URI, PORT = 5000 } = process.env;
+const { MONGO_URI, REDIS_URL, PORT = 5000 } = process.env;
 
 const startServer = async () => {
   try {
+    await connectRedis(REDIS_URL);
+    console.log('Connected to Redis DB....');
+
     await connectMongoDB(MONGO_URI);
     console.log('Connected to Mongo DB....');
 
