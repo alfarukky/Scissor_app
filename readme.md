@@ -31,8 +31,13 @@ _Link Management:_
 
    _QR Code Generation:_
 
-1) Users can generate a QR code for each shortened URL.
-2) QR codes can be scanned to access the shortened URL directly.
+3. Users can generate a QR code for each shortened URL.
+4. QR codes can be scanned to access the shortened URL directly.
+
+   _Caching with Redis:_
+
+5. Redis is used to cache URL redirection data, improving performance by reducing database load.
+6. Implemented cache strategies ensure efficient data retrieval and handle cache invalidation.
 
 ## Built with
 
@@ -45,10 +50,11 @@ _Link Management:_
 -Passport.js
 -bcrypt.js
 -nanoid
+-Redis
 
 ## Links
 
-- Live Site URL: [live site URL here]()
+- Live Site URL: [live site URL here](https://scissor-app-rdu6.onrender.com/)
 
 ## Author
 
@@ -56,4 +62,4 @@ _Link Management:_
 
 ## Acknowledgments
 
-I express my sincere gratitude to _@altschoolafrica_ and to our mentors _@altschoolafrica_
+I express my sincere gratitude to our mentors _@altschoolafrica_
