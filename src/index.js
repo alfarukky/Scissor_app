@@ -4,6 +4,7 @@ const expressLayouts = require('express-ejs-layouts');
 const flash = require('connect-flash');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const passport = require('passport');
 const homeRoute = require('./routes/home.route.js');
 const authRoute = require('./routes/auth.route');
@@ -36,9 +37,15 @@ app.use(
     secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_URI,
+      collectionName: 'sessions',
+    }),
+    cookie: {
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
+    },
   })
 );
-
 // Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
