@@ -1,17 +1,28 @@
 const { connectRedis, connectMongoDB } = require('./model/connection');
 const app = require('./index');
 const logger = require('./utils/winston.utils');
-const { MONGO_URI, REDIS_URL, PORT = 5000 } = process.env;
+const {
+  MONGO_URI,
+  REDIS_PASSWORD,
+  REDIS_HOST,
+  REDIS_PORT,
+  PORT = 5000,
+} = process.env;
 
 const startServer = async () => {
   try {
-    await connectRedis(REDIS_URL);
-    console.log('Connected to Redis DB....');
+    // Create Redis configuration object
+    const redisConfig = {
+      password: REDIS_PASSWORD || '',
+      host: REDIS_HOST || '127.0.0.1',
+      port: parseInt(REDIS_PORT, 10) || 6379,
+    };
 
+    await connectRedis(redisConfig);
     await connectMongoDB(MONGO_URI);
-    console.log('Connected to Mongo DB....');
 
     app.listen(PORT, () => {
+      console.log('Connected to Mongo DB....');
       console.log(`Server is running on port ${PORT}`);
     });
   } catch (err) {
